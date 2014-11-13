@@ -135,7 +135,7 @@ function clone_dvd() {
 
     # get the full path to the target directory
     local target_directory
-    target_directory=$(realpath -s "$1" 2> /dev/null)
+    target_directory=$(realpath --strip "$1" 2> /dev/null)
 
     if [ $? -ne 0 ]
     then
@@ -186,15 +186,19 @@ function clone_dvd() {
         return 1
     fi
 
+    # create DVD iso file variable
+    local dvd_iso
+    dvd_iso="$target_directory/$dvd_title.iso"
+
     # make a bit for bit copy of the dvd
-    dd if="$dvd_device" of="$target_directory/$dvd_title.iso" bs=2048 2> /dev/null
+    dd if="$dvd_device" of="$dvd_iso" bs=2048 2> /dev/null
 
     if [ $? -ne 0 ]
     then
         __echo_to_stderr "clone_dvd: DVD appears to have structure protection (ARccOS or similar)"
 
         # try again, but don't fail on errors and pad out error blocks
-        dd if="$dvd_device" of="$target_directory/$dvd_title.iso" bs=2048 conv=noerror,sync 2> /dev/null
+        dd if="$dvd_device" of="$dvd_iso" bs=2048 conv=noerror,sync 2> /dev/null
 
         if [ $? -ne 0 ]
         then
@@ -205,7 +209,7 @@ function clone_dvd() {
 
     # get the size of the copy
     local dvd_image_size
-    dvd_image_size=$(__get_file_size "$target_directory/$dvd_title.iso")
+    dvd_image_size=$(__get_file_size "$dvd_iso")
 
     if [ $? -ne 0 ]
     then
@@ -220,23 +224,23 @@ function clone_dvd() {
     fi
 
     # make the copy readonly
-    chmod 444 "$target_directory/$dvd_title.iso"
+    chmod 444 "$dvd_iso"
 
     if [ $? -ne 0 ]
     then
-        __echo_to_stderr "clone_dvd: Cannot make $target_directory/$dvd_title.iso read-only"
+        __echo_to_stderr "clone_dvd: Cannot make $dvd_iso read-only"
         return 1
     fi
 
     # set the date on the copy
-    __set_file_accessed_time "$target_directory/$dvd_title.iso" "$dvd_release_date"
+    __set_file_accessed_time "$dvd_iso" "$dvd_release_date"
 
     if [ $? -ne 0 ]
     then
         return 1
     fi
 
-    echo "$target_directory/$dvd_title.iso"
+    echo "$dvd_iso"
 
     return 0
 }
@@ -255,7 +259,7 @@ function get_file_info() {
     fi
 
     # do we have all the necessary tools to hand?
-    local required_tooling=("basename" "md5sum" "awk")
+    local required_tooling=("basename" "printf" "md5sum" "awk")
     __check_tooling_is_available ${required_tooling[*]}
 
     if [ $? -ne 0 ]
@@ -285,7 +289,7 @@ function get_file_info() {
 
     # get the file size
     local file_size
-    file_size=$(__get_file_size "$specified_file")
+    file_size=$(printf "%'.f\n" $(__get_file_size "$specified_file"))
 
     if [ $? -ne 0 ]
     then
@@ -302,7 +306,7 @@ function get_file_info() {
         return 1
     fi
 
-    echo -e "$file_name\n$file_size bytes\n$file_md5 (MD5)"
+    echo -e "$file_name\n$file_size bytes\n$file_md5 (MD5)\n"
 
     return 0
 }
@@ -344,7 +348,7 @@ function rip_dvd_title() {
 
     # get the full path to the target directory
     local target_directory
-    target_directory=$(realpath -s "$1" 2> /dev/null)
+    target_directory=$(realpath --strip "$1" 2> /dev/null)
 
     if [ $? -ne 0 ]
     then
@@ -544,7 +548,7 @@ function rip_dvd_title() {
     local cover_art_url="https://raw.githubusercontent.com/dvds/images/master/$dvd_title_name.jpg"
 
     # retrieve the cover art
-    wget --quiet "$cover_art_url" -O "$tmp_directory/$dvd_title_name.jpg"
+    wget --quiet "$cover_art_url" --output-document="$tmp_directory/$dvd_title_name.jpg"
 
     if [ $? -ne 0 ]
     then
@@ -643,7 +647,7 @@ function get_matroska_file_info() {
         return 1
     fi
 
-    echo -e "$basic_info\n$mkv_info"
+    echo -e "$basic_info\n$mkv_info\n"
 
     return 0
 }
@@ -837,7 +841,7 @@ function __check_device_exists() {
     local block_device="$1"
 
     local specified_device_count
-    specified_device_count=$(more /etc/mtab | grep "$block_device" | wc -l 2> /dev/null)
+    specified_device_count=$(more /etc/mtab | grep "$block_device" | wc --lines 2> /dev/null)
 
     if [ $? -ne 0 ]
     then
@@ -915,7 +919,7 @@ function __is_optical_device_dvd_capable() {
     local optical_device="$1"
 
     local dvd_capable_device_count
-    dvd_capable_device_count=$(udisks --show-info "$optical_device" | grep "compat:.*optical_dvd" | wc -l 2> /dev/null)
+    dvd_capable_device_count=$(udisks --show-info "$optical_device" | grep "compat:.*optical_dvd" | wc --lines 2> /dev/null)
 
     if [ $? -ne 0 ]
     then
@@ -969,7 +973,7 @@ function __is_dvd_in_dvd_device() {
     local dvd_device="$1"
 
     local dvd_device_with_dvd_count
-    dvd_device_with_dvd_count=$(udisks --show-info "$dvd_device" | grep "media:.*optical_dvd" | wc -l 2> /dev/null)
+    dvd_device_with_dvd_count=$(udisks --show-info "$dvd_device" | grep "media:.*optical_dvd" | wc --lines 2> /dev/null)
 
     if [ $? -ne 0 ]
     then
@@ -1000,7 +1004,7 @@ function __get_file_size() {
     local specified_file="$1"
 
     local file_size
-    file_size=$(wc -c "$specified_file" | awk '{ print $1; }')
+    file_size=$(wc --bytes "$specified_file" | awk '{ print $1; }')
 
     if [ $? -ne 0 ]
     then
@@ -1054,7 +1058,7 @@ function __delete_directory() {
 
     local specified_directory="$1"
 
-    rm -rf "$specified_directory"
+    rm --recursive --force "$specified_directory"
 
     if [ $? -ne 0 ]
     then
