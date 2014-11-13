@@ -1,0 +1,1066 @@
+# Copyright 2014 dvds
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Gets the name of the currently executing script, minus the file extension
+function get_script_name() {
+    local argument_count=$#
+
+    # check that no arguments are provided
+    if [ $argument_count -ne 0 ]
+    then
+        __echo_to_stderr "get_script_name: Zero (0) arguments should be supplied"
+        return 1
+    fi
+
+    # do we have all the necessary tools to hand?
+    local required_tooling=("basename")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "get_script_name: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    # set the script path variable
+    local script_path="$0"
+
+    # get the name of the file, minus the extension
+    local file_name_without_extension
+    file_name_without_extension=$(__get_file_name_without_extension "$script_path")
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    echo "$file_name_without_extension"
+
+    return 0
+}
+
+
+# Checks that the DVD in the DVD drive has the expected volume label
+# arguments:
+# $1 - the expected DVD volume label
+# $2 - the DVD device where the disk is located, e.g. /dev/sr0 (optional: will scan if omitted)
+function check_dvd_volume_label() {
+    local argument_count=$#
+
+    # check that at least one and no more than two arguments are provided
+    if [ $argument_count -lt 1 ]
+    then
+        __echo_to_stderr "check_volume_dvd_label: At least one (1) argument should be supplied"
+        return 1
+    fi
+    if [ $argument_count -gt 2 ]
+    then
+        __echo_to_stderr "check_volume_dvd_label: At most two (2) arguments should be supplied"
+        return 1
+    fi
+
+    # get the expected DVD volume label variable
+    local expected_dvd_volume_label="$1"
+
+    # get the DVD device
+    local dvd_device
+    dvd_device=$(__get_single_dvd_device_with_dvd "${@:2}")
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    # validate that the volume label of the DVD in the DVD device matches our expectation
+    local actual_dvd_volume_label
+    actual_dvd_volume_label=$(__read_and_assert_dvd_volume_label "$dvd_device" "$expected_dvd_volume_label")
+    local return_code=$?
+
+    if [ $return_code -eq 2 ]
+    then
+        return 1
+    fi
+
+    if [ $return_code -eq 1 ]
+    then
+        __echo_to_stderr "check_dvd_volume_label: DVD label '$actual_dvd_volume_label' does not match expected volume label '$expected_dvd_volume_label'"
+        return 1
+    fi
+
+    return 0
+}
+
+
+# Creates a bit-for-bit copy of the DVD in the ISO format in the specified directory with the specified name and date
+# arguments:
+# $1 - the directory where the clone is to be written to
+# $2 - the DVD title
+# $3 - the date when the DVD was released
+# $4 - the DVD device where the disk is located, e.g. /dev/sr0 (optional: will scan if omitted)
+function clone_dvd() {
+    local argument_count=$#
+
+    # check that at least three and no more than four arguments are provided
+    if [ $argument_count -lt 3 ]
+    then
+        __echo_to_stderr "clone_dvd: At least three (3) arguments should be supplied"
+        return 1
+    fi
+    if [ $argument_count -gt 4 ]
+    then
+        __echo_to_stderr "clone_dvd: At most four (4) arguments should be supplied"
+        return 1
+    fi
+
+    # do we have all the necessary tools to hand?
+    local required_tooling=("realpath" "blockdev" "mkdir" "mplayer" "dd" "chmod")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "clone_dvd: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    # get the full path to the target directory
+    local target_directory
+    target_directory=$(realpath -s "$1" 2> /dev/null)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "clone_dvd: Cannot determine target directory path"
+        return 1
+    fi
+
+    local dvd_title="$2"
+    local dvd_release_date="$3"
+
+    # get the DVD device
+    local dvd_device
+    dvd_device=$(__get_single_dvd_device_with_dvd "${@:4}")
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    # get the size of the DVD disk (in bytes)
+    local dvd_size
+    dvd_size=$(blockdev --getsize64 "$dvd_device")
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "clone_dvd: Cannot read size of $dvd_device"
+        return 1
+    fi
+
+    # create the target directory (if it doesn't exist)
+    if [ ! -d "$target_directory" ]
+    then
+        mkdir --parents "$target_directory" 2> /dev/null
+
+        if [ $? -ne 0 ]
+        then
+            __echo_to_stderr "clone_dvd: Cannot create target directory"
+            return 1
+        fi
+    fi
+
+    # retrieve the CSS keys to prevent authoritarian DVD player preventing access to the disc...
+    mplayer -really-quiet -dvd-device "$dvd_device" dvd://1 -frames 0 -vo null -ao null 2> /dev/null
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "clone_dvd: Cannot retrieve CSS keys for device $dvd_device"
+        return 1
+    fi
+
+    # make a bit for bit copy of the dvd
+    dd if="$dvd_device" of="$target_directory/$dvd_title.iso" bs=2048 2> /dev/null
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "clone_dvd: DVD appears to have structure protection (ARccOS or similar)"
+
+        # try again, but don't fail on errors and pad out error blocks
+        dd if="$dvd_device" of="$target_directory/$dvd_title.iso" bs=2048 conv=noerror,sync 2> /dev/null
+
+        if [ $? -ne 0 ]
+        then
+            __echo_to_stderr "clone_dvd: Failed to copy device $dvd_device"
+            return 1
+        fi
+    fi
+
+    # get the size of the copy
+    local dvd_image_size
+    dvd_image_size=$(__get_file_size "$target_directory/$dvd_title.iso")
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    # does the size of the image match the size of the actual disk?
+    if [ "$dvd_size" != "$dvd_image_size" ]
+    then
+        __echo_to_stderr "clone_dvd: Copied $dvd_image_size bytes which does not match the $dvd_size bytes reported by the DVD"
+        return 1
+    fi
+
+    # make the copy readonly
+    chmod 444 "$target_directory/$dvd_title.iso"
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "clone_dvd: Cannot make $target_directory/$dvd_title.iso read-only"
+        return 1
+    fi
+
+    # set the date on the copy
+    __set_file_accessed_time "$target_directory/$dvd_title.iso" "$dvd_release_date"
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    echo "$target_directory/$dvd_title.iso"
+
+    return 0
+}
+
+
+# Write out a summary of this file's characteristics: its name, length in bytes and hash (MD5)
+# $1 - the file
+function get_file_info() {
+    local argument_count=$#
+
+    # check that one argument is provided
+    if [ $argument_count -ne 1 ]
+    then
+        __echo_to_stderr "get_file_info: One (1) argument should be supplied"
+        return 1
+    fi
+
+    # do we have all the necessary tools to hand?
+    local required_tooling=("basename" "md5sum" "awk")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "get_file_info: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    local specified_file="$1"
+
+    # does the file exist?
+    if [ ! -f "$specified_file" ]
+    then
+        __echo_to_stderr "get_file_info: File $specified_file does not exist"
+        return 1
+    fi
+
+    # get the file name
+    local file_name
+    file_name=$(basename "$specified_file")
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "get_file_info: Cannot get name of file $specified_file"
+        return 1
+    fi
+
+    # get the file size
+    local file_size
+    file_size=$(__get_file_size "$specified_file")
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    # get the file md5
+    local file_md5
+    file_md5=$(md5sum "$specified_file" | awk '{ print $1; }')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "get_file_info: Cannot get MD5 of file $specified_file"
+        return 1
+    fi
+
+    echo -e "$file_name\n$file_size bytes\n$file_md5 (MD5)"
+
+    return 0
+}
+
+
+# Extracts the audio and video stream of the specified title from the specified dvd device and compiles it into a Matroska container, along with the retrieved cover art
+# arguments:
+# $1 - the directory where the ripped title is to be written to
+# $2 - the title number
+# $3 - the DVD angle
+# $4 - the audio language
+# $5 - the title name
+# $6 - the release date
+# $7 - the DVD device where the disk is located, e.g. /dev/sr0 (optional: will scan if omitted)
+function rip_dvd_title() {
+    local argument_count=$#
+
+    # check that at least 6 and no more than 7 arguments are provided
+    if [ $argument_count -lt 6 ]
+    then
+        __echo_to_stderr "rip_dvd_title: At least six (6) arguments should be supplied"
+        return 1
+    fi
+    if [ $argument_count -gt 7 ]
+    then
+        __echo_to_stderr "rip_dvd_title: At most seven (7) arguments should be supplied"
+        return 1
+    fi
+
+    # do we have all the necessary tools to hand?
+    local required_tooling=("realpath" "mplayer" "printf" "grep" "sed" "mkdir" "mktemp" "avconv" "tr" "mkvmerge")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    # get the full path to the target directory
+    local target_directory
+    target_directory=$(realpath -s "$1" 2> /dev/null)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot determine target directory path"
+        return 1
+    fi
+
+    # check that the specified DVD title is not outside the allowable range (i.e. 1 to 99)
+    local dvd_title="$2"
+    if [ $dvd_title -lt 1 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Specified DVD title cannot be less than one (1)"
+        return 1
+    fi
+    if [ $dvd_title -gt 99 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Specified DVD title cannot be more than ninety-nine (99)"
+        return 1
+    fi
+
+    # check that the specified DVD angle is not outside the allowable range (i.e. 1 to n)
+    local dvd_angle="$3"
+    if [ $dvd_angle -lt 1 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Specified DVD angle cannot be less than one (1)"
+        return 1
+    fi
+
+    # set the dvd audio language
+    local dvd_audio_language="$4"
+
+    # set the dvd title name
+    local dvd_title_name="$5"
+
+    # set the dvd release date
+    local dvd_release_date="$6"
+
+    # get the DVD device
+    local dvd_device
+    if [ $argument_count -eq 7 ]
+    then
+        dvd_device="$7"
+    else
+        dvd_device=$(__get_single_dvd_device_with_dvd "${@:7}")
+    fi
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    # check the specified title is actually on the disk
+    local dvd_title_count
+    dvd_title_count=$(mplayer -dvd-device "$dvd_device" dvd://1 -frames 0 -identify 2> /dev/null | grep ID_DVD_TITLES | sed 's/ID_DVD_TITLES=//')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot get number of titles on DVD device $dvd_device"
+        return 1
+    fi
+
+    if [ $dvd_title -gt $dvd_title_count ]
+    then
+        __echo_to_stderr "rip_dvd_title: DVD does not contain title number $dvd_title ($dvd_title_count titles in total)"
+        return 1
+    fi
+
+    # check the specified angle is actually on the disk
+    local dvd_angle_count
+    dvd_angle_count=$(mplayer -dvd-device "$dvd_device" dvd://1 -frames 0 -identify 2> /dev/null | grep "ID_DVD_TITLE_"$dvd_title"_ANGLES" | sed 's/ID_DVD_TITLE_'$dvd_title'_ANGLES=//')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot get number of angles for title $dvd_title on DVD device $dvd_device"
+        return 1
+    fi
+
+    if [ $dvd_angle -gt $dvd_angle_count ]
+    then
+        __echo_to_stderr "rip_dvd_title: DVD does not contain angle number $dvd_angle for DVD title $dvd_title ($dvd_angle_count angles in total)"
+        return 1
+    fi
+
+    # check the audio language for this track is on the disk
+    local dvd_audio_substream_id
+    dvd_audio_substream_id=$(mplayer -dvd-device "$dvd_device" dvd://$dvd_title -frames 0 -identify 2> /dev/null | grep "ID_AID_.*_LANG="$dvd_audio_language | sed 's/ID_AID_//' | sed 's/_LANG='$dvd_audio_language'//' )
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot get languages for title $dvd_title on DVD device $dvd_device"
+        return 1
+    fi
+
+    if [ -z $dvd_audio_substream_id ]
+    then
+        __echo_to_stderr "rip_dvd_title: DVD does not contain audio language $dvd_audio_language for DVD title $dvd_title"
+        return 1
+    fi
+
+    # Convert the audio substream id to a hexadecimal number
+    local dvd_audio_substream_id_in_hex
+    dvd_audio_substream_id_in_hex=$(printf "0x%x" $dvd_audio_substream_id)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot convert ausio substream id $dvd_audio_substream_id to hexadecimal representation"
+        return 1
+    fi
+
+    # create the target directory (if it doesn't exist)
+    if [ ! -d "$target_directory" ]
+    then
+        mkdir --parents "$target_directory" 2> /dev/null
+
+        if [ $? -ne 0 ]
+        then
+            __echo_to_stderr "rip_dvd_title: Cannot create target directory"
+            return 1
+        fi
+    fi
+
+    # create a temporary directory to hold the stream of DVD data
+    local tmp_directory
+    tmp_directory=$(mktemp -d)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot create a temporary directory"
+        return 1
+    fi
+
+    # create variable to hold the path to the DVD title stream
+    local dvd_title_stream="$tmp_directory/$dvd_title.vob"
+
+    # extract the data stream of the specified DVD title
+    mplayer -really-quiet -dvd-device "$dvd_device" dvd://$dvd_title -dumpstream -dumpfile "$dvd_title_stream" 2> /dev/null
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot extract data stream from title $dvd_title of DVD device $dvd_device"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # Note:
+    # None of the tooling seems capable of selecting streams in an MPEG2-PS container (i.e. vob) by substream id
+    # So, we have to convert the substream id to the stream id of the audio track to use
+    local dvd_audio_stream_id
+    dvd_audio_stream_id=$(avconv -i "$dvd_title_stream" 2>&1 | grep "\["$dvd_audio_substream_id_in_hex"\]" | tr --delete ' ' | sed 's/Stream#0.//' | sed 's/\['$dvd_audio_substream_id_in_hex'\]/ /' | awk '{ print $1; }')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot get audio stream id from audio substream $dvd_audio_substream_id_in_hex in $dvd_title_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    if [ -z $dvd_audio_stream_id ]
+    then
+        __echo_to_stderr "rip_dvd_title: DVD does not contain audio substream $dvd_audio_substream_id_in_hex in $dvd_title_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # get a remuxed stream path from the title stream, and including the specified language
+    local dvd_remuxed_stream
+    dvd_remuxed_stream="$tmp_directory/"$(__get_file_name_without_extension "$dvd_title_stream")".$dvd_audio_language."$(__get_file_extension "$dvd_title_stream")
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot calculate remuxed stream from $dvd_title_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # remux to a new vob with the video and only the specified audio language
+    avconv -i "$dvd_title_stream" -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream" 2> /dev/null
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot remux streams from $dvd_title_stream to $dvd_remuxed_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # set cover art url
+    local cover_art_url="https://raw.githubusercontent.com/dvds/images/master/$dvd_title_name.jpg"
+
+    # retrieve the cover art
+    wget --quiet "$cover_art_url" -O "$tmp_directory/$dvd_title_name.jpg"
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot get cover art from $cover_art_url"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # create a variable to hold the container file path
+    local dvd_title_container
+    dvd_title_container="$target_directory/$dvd_title_name.mkv"
+
+    # create the matroska container
+    mkvmerge --quiet --segment-uid 0x00000000000000000000000000000000 --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$tmp_directory/$dvd_title_name.jpg" --output "$dvd_title_container" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_language" --default-track 1:1 "$dvd_remuxed_stream"
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot create Matroska container from remuxed stream in $dvd_remuxed_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # TODO
+    # remove segment metadata values: Muxing application, Writing application, Date
+    # change Track UID values
+    # change File UID values
+
+    __set_file_accessed_time "$dvd_title_container" "$dvd_release_date"
+
+    if [ $? -ne 0 ]
+    then
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    echo "$dvd_title_container"
+
+    __delete_directory "$tmp_directory"
+
+    return 0
+}
+
+
+# Write out a summary of the specified matroska file's characteristics: its name, length in bytes and hash (MD5), together with some information about the component streams
+# $1 - the matroska file
+function get_matroska_file_info() {
+    local argument_count=$#
+
+    # check that one argument is provided
+    if [ $argument_count -ne 1 ]
+    then
+        __echo_to_stderr "get_matroska_file_info: One (1) argument should be supplied"
+        return 1
+    fi
+
+    # do we have all the necessary tools to hand?
+    local required_tooling=("avconv" "grep" "sed")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "get_matroska_file_info: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    local specified_file="$1"
+
+    local file_extension
+    file_extension=$(__get_file_extension "$specified_file")
+
+    if [ "$file_extension" != "mkv" ]
+    then
+        __echo_to_stderr "get_matroska_file_info: File $specified_file should be a Matroska file (expect .mkv file extension)"
+        return 1
+    fi
+
+    local basic_info
+    basic_info=$(get_file_info "$specified_file")
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    local mkv_info
+    mkv_info=$(avconv -i "$specified_file" 2>&1 | grep --extended-regex '(Duration|Video|Audio)' | sed 's/^ *//' | sed 's/Stream #0.[0-9]//' | sed 's/^:/ /' | sed 's/):/)/' | sed 's/^ *//' | sed 's/ (default)//')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "get_matroska_file_info: Cannot get a/v properties of file $specified_file"
+        return 1
+    fi
+
+    echo -e "$basic_info\n$mkv_info"
+
+    return 0
+}
+
+
+# gets the file name after stripping the file extension
+function __get_file_name_without_extension() {
+    local file_name
+
+    file_name="$1"
+
+    local file_extension
+    file_extension=$(__get_file_extension "$file_name")
+
+    local file_name_without_extension
+    file_name_without_extension=$(basename "$file_name" ".$file_extension")
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__get_file_name_without_extension: Cannot get file name from $file_name"
+        
+        return 1
+    fi
+
+    echo "$file_name_without_extension"
+
+    return 0
+}
+
+
+# gets the extension of the file, without the period (.)
+function __get_file_extension() {
+    local file_name
+
+    file_name="$1"
+
+    echo "${file_name##*.}"
+
+    return 0
+}
+
+
+# discovers a DVD device that contains a DVD, or fails if there are none or many
+function __get_single_dvd_device_with_dvd() {
+    local argument_count=$#
+
+    # a device was specified, so validate that it exists
+    if [ $argument_count -eq 1 ]
+    then
+        local dvd_device="$1"
+
+        __check_device_exists "$dvd_device"
+
+        if [ $? -eq 1 ]
+        then
+            return 1
+        fi
+
+        local optical_devices=("$dvd_device")
+    fi
+
+    # a device was not specified, so detect optical devices
+    if [ $argument_count -eq 0 ]
+    then
+        local optical_devices
+        optical_devices=($(__get_optical_devices))
+
+        if [ $? -ne 0 ]
+        then
+            return 1
+        fi
+    fi
+
+    # filter optical drives to only include DVD devices
+    local dvd_devices
+    dvd_devices=($(__filter_optical_devices_that_are_dvd_capable ${optical_devices[*]}))
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    # filter DVD drives to only include those with disks present
+    local dvd_devices_with_dvds
+    dvd_devices_with_dvds=($(__filter_dvd_devices_that_contain_a_dvd ${dvd_devices[*]}))
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    # how many devices does that leave?
+    local dvd_devices_with_dvds_count=${#dvd_devices_with_dvds[@]}
+
+    # no devices - fail
+    if [ $dvd_devices_with_dvds_count -eq 0 ]
+    then
+        __echo_to_stderr "__get_dvd_device: No DVD devices found containing a DVD"
+        return 1
+    fi
+
+    # lots of devices - fail
+    if [ $dvd_devices_with_dvds_count -gt 1 ]
+    then
+        __echo_to_stderr "__get_dvd_device: $dvd_devices_with_dvds_count DVD devices found containing a DVD - the specific device must be specified"
+        return 1
+    fi
+
+    # a single device - success
+    echo ${dvd_devices_with_dvds[0]}
+
+    return 0
+}
+
+
+# Checks that the volume label of the DVD in the specified DVD device matches the specified volume label
+function __read_and_assert_dvd_volume_label() {
+    local required_tooling=("blkid")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__read_and_assert_dvd_volume_label: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    local dvd_device="$1"
+    local expected_dvd_volume_label="$2"
+
+    local actual_dvd_volume_label
+    actual_dvd_volume_label=$(blkid -s LABEL -o value $dvd_device 2> /dev/null)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__read_and_assert_dvd_volume_label: An error occurred whilst reading the volume label of device $dvd_device"
+        return 2
+    fi
+
+    if [ "$actual_dvd_volume_label" != "$expected_dvd_volume_label" ]
+    then
+        echo "$actual_dvd_volume_label"
+        return 1
+    fi
+
+    return 0
+}
+
+
+# write to stderr stream
+function __echo_to_stderr() {
+    __check_tooling_is_available "echo"
+
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+
+    echo "$@" 1>&2
+}
+
+
+# checks that the specified binaries are discoverable
+function __check_tooling_is_available() {
+    local tool
+    for tool in "$@"
+    do
+        local tool_path
+        tool_path=$(which "$tool")
+
+        if [ $? -ne 0 ]
+        then
+            return 1
+        fi
+    done
+
+    return 0
+}
+
+
+# checks that the specified block device is mounted
+function __check_device_exists() {
+    local required_tooling=("more" "grep" "wc")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__check_device_exists: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    local block_device="$1"
+
+    local specified_device_count
+    specified_device_count=$(more /etc/mtab | grep "$block_device" | wc -l 2> /dev/null)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__check_device_exists: An error occurred whilst discovering the devices"
+        return 1
+    fi
+
+    if [ $specified_device_count -eq 1 ]
+    then
+        return 0
+    fi
+
+    __echo_to_stderr "__check_device_exists: Cannot find specified device $block_device"
+    return 1
+}
+
+
+# write optical block devices to stdout
+function __get_optical_devices() {
+    local required_tooling=("lsblk" "grep" "awk")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__get_optical_devices: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 1
+    fi
+
+    lsblk --nodeps --noheadings --raw --output MAJ:MIN,RM,ROTA,TYPE,KNAME | grep "^11:[0-9]* 1 1 rom" | awk '{ print "/dev/"$5; }' 2> /dev/null
+
+    if [ $? -eq 0 ]
+    then
+        return 0
+    fi
+
+    __echo_to_stderr "__get_optical_devices: An error occurred whilst discovering the devices"
+    return 1
+}
+
+
+# enumerates supplied optical devices and writes those that are dvd-capable to stdout
+function __filter_optical_devices_that_are_dvd_capable() {
+    local optical_device
+    for optical_device in "$@"
+    do
+        __is_optical_device_dvd_capable "$optical_device"
+        local return_code=$?
+
+        if [ $return_code -eq 2 ]
+        then
+            return 1
+        fi
+
+        if [ $return_code -eq 0 ]
+        then
+            echo "$optical_device"
+        fi
+    done
+
+    return 0
+}
+
+
+# checks that the specified optical device is DVD capable
+function __is_optical_device_dvd_capable() {
+    local required_tooling=("udisks" "grep" "wc")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__is_optical_device_dvd_capable: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 2
+    fi
+
+    local optical_device="$1"
+
+    local dvd_capable_device_count
+    dvd_capable_device_count=$(udisks --show-info "$optical_device" | grep "compat:.*optical_dvd" | wc -l 2> /dev/null)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__is_optical_device_dvd_capable: An error occurred whilst discovering the device properties for device $optical_device"
+        return 2
+    fi
+
+    if [ $dvd_capable_device_count -eq 1 ]
+    then
+        return 0
+    fi
+
+    return 1
+}
+
+
+# enumerates supplied dvd devices and writes those that contain a DVD in them to stdout
+function __filter_dvd_devices_that_contain_a_dvd() {
+    local dvd_device
+    for dvd_device in "$@"
+    do
+        __is_dvd_in_dvd_device "$dvd_device"
+        local return_code=$?
+
+        if [ $return_code -eq 2 ]
+        then
+            return 1
+        fi
+
+        if [ $return_code -eq 0 ]
+        then
+            echo "$dvd_device"
+        fi
+    done
+
+    return 0
+}
+
+
+# checks that the specified DVD device contains a DVD
+function __is_dvd_in_dvd_device() {
+    local required_tooling=("udisks" "grep" "wc")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__is_dvd_in_dvd_device: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 2
+    fi
+
+    local dvd_device="$1"
+
+    local dvd_device_with_dvd_count
+    dvd_device_with_dvd_count=$(udisks --show-info "$dvd_device" | grep "media:.*optical_dvd" | wc -l 2> /dev/null)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__is_dvd_in_dvd_device: An error occurred whilst discovering the device properties for device $dvd_device"
+        return 2
+    fi
+
+    if [ $dvd_device_with_dvd_count -eq 1 ]
+    then
+        return 0
+    fi
+
+    return 1
+}
+
+
+# counts the number of bytes in a file
+function __get_file_size() {
+    local required_tooling=("wc" "awk")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__get_file_size: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 2
+    fi
+
+    local specified_file="$1"
+
+    local file_size
+    file_size=$(wc -c "$specified_file" | awk '{ print $1; }')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__get_file_size: Cannot read size of $specified_file"
+        return 1
+    fi
+
+    echo $file_size
+
+    return 0
+}
+
+
+# set the specified accessed time on the specified file
+function __set_file_accessed_time() {
+    local required_tooling=("touch")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__set_file_accessed_time: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 2
+    fi
+
+    local file_name="$1"
+    local accessed_time="$2"
+
+    # set the date on the copy
+    touch --date="$accessed_time" "$file_name"
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__set_file_accessed_time: Cannot set last accessed time on $file_name"
+        return 1
+    fi
+
+    return 0
+}
+
+
+# deletes a directory and its contents
+function __delete_directory() {
+    local required_tooling=("rm")
+    __check_tooling_is_available ${required_tooling[*]}
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__delete_directory: One or more of the following tools are not installed: ${required_tooling[*]}"
+        return 2
+    fi
+
+    local specified_directory="$1"
+
+    rm -rf "$specified_directory"
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "__delete_directory: Cannot delete directory $specified_directory"
+        return 1
+    fi
+
+    return 0
+}
