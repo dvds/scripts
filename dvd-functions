@@ -484,7 +484,7 @@ function rip_dvd_title() {
     local dvd_title_stream="$tmp_directory/$dvd_title.vob"
 
     # extract the data stream of the specified DVD title
-    mplayer -really-quiet -dvd-device "$dvd_device" dvd://$dvd_title -dumpstream -dumpfile "$dvd_title_stream" 2> /dev/null
+    mplayer -really-quiet -dvd-device "$dvd_device" dvd://$dvd_title -dvdangle "$dvd_angle" -dumpstream -dumpfile "$dvd_title_stream" 2> /dev/null
 
     if [ $? -ne 0 ]
     then
