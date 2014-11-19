@@ -337,7 +337,7 @@ function rip_dvd_title() {
     fi
 
     # do we have all the necessary tools to hand?
-    local required_tooling=("realpath" "mplayer" "printf" "grep" "sed" "mkdir" "mktemp" "avconv" "tr" "mkvmerge")
+    local required_tooling=("realpath" "mplayer" "bc" "printf" "grep" "sed" "mkdir" "mktemp" "avconv" "tr" "mkvmerge")
     __check_tooling_is_available ${required_tooling[*]}
 
     if [ $? -ne 0 ]
@@ -433,8 +433,8 @@ function rip_dvd_title() {
     fi
 
     # check the audio language for this track is on the disk
-    local dvd_audio_substream_id
-    dvd_audio_substream_id=$(mplayer -dvd-device "$dvd_device" dvd://$dvd_title -frames 0 -identify 2> /dev/null | grep "ID_AID_.*_LANG="$dvd_audio_language | sed 's/ID_AID_//' | sed 's/_LANG='$dvd_audio_language'//' )
+    local dvd_audio_substreams
+    dvd_audio_substreams=$(mplayer -dvd-device "$dvd_device" dvd://$dvd_title -frames 0 -identify 2> /dev/null | grep "ID_AID_.*_LANG="$dvd_audio_language | sed 's/ID_AID_//' | sed 's/_LANG='$dvd_audio_language'//' )
 
     if [ $? -ne 0 ]
     then
@@ -442,9 +442,58 @@ function rip_dvd_title() {
         return 1
     fi
 
-    if [ -z $dvd_audio_substream_id ]
+    # count the number of audio streams that have the specified language
+    local dvd_audio_substreams_count
+    dvd_audio_substreams_count=$(echo "$dvd_audio_substreams" | wc -l)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot count the number of audio streams with language $dvd_audio_language for title $dvd_title on DVD device $dvd_device"
+        return 1
+    fi
+
+    # if there is (somehow) no track with the specified language then exit noisily
+    if [ "$dvd_audio_substreams_count" -eq 0 ]
     then
         __echo_to_stderr "rip_dvd_title: DVD does not contain audio language $dvd_audio_language for DVD title $dvd_title"
+        return 1
+    fi
+
+    local dvd_audio_substream_id
+
+    # if there is a single track then set it
+    if [ "$dvd_audio_substreams_count" -eq 1 ]
+    then
+        dvd_audio_substream_id="$dvd_audio_substreams"
+    fi
+
+    # there are multiple audio tracks with the specified language. find the one with the highest bitrate (i.e. favour 5.1 over stereo)
+    if [ "$dvd_audio_substreams_count" -gt 1 ]
+    then
+        local substream_highest_bitrate
+        substream_highest_bitrate=0
+
+        while read -r substream_item
+        do
+            local substream_bitrate
+            substream_bitrate=$(mplayer -dvd-device "$dvd_device" dvd://$dvd_title -aid "$substream_item" -frames 0 2> /dev/null | grep 'AUDIO:' | awk '{ print $7; }')
+
+            # is this bitrate better?
+            local bitrate_is_greater
+            bitrate_is_greater=$(echo $substream_bitrate'>'$substream_highest_bitrate | bc -l)
+
+            if [ $bitrate_is_greater -eq 1 ]
+            then
+                dvd_audio_substream_id="$substream_item"
+                substream_highest_bitrate="$substream_bitrate"
+            fi
+        done <<< "$dvd_audio_substreams"
+    fi
+
+    # if we somehow haven't got an audio substream then exit noisily
+    if [ -z "$dvd_audio_substream_id" ]
+    then
+        __echo_to_stderr "rip_dvd_title: An audio substream has not been set for audio language $dvd_audio_language for DVD title $dvd_title"
         return 1
     fi
 
