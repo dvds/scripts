@@ -321,18 +321,20 @@ function get_file_info() {
 # $5 - the title name
 # $6 - the release date
 # $7 - the DVD device where the disk is located, e.g. /dev/sr0 (optional: will scan if omitted)
+# $8 - the output file name (optional: will default to the title name)
+# $9 - the cover art name (optional: will default to the title name)
 function rip_dvd_title() {
     local argument_count=$#
 
-    # check that at least 6 and no more than 7 arguments are provided
+    # check that at least 6 and no more than 9 arguments are provided
     if [ $argument_count -lt 6 ]
     then
         __echo_to_stderr "rip_dvd_title: At least six (6) arguments should be supplied"
         return 1
     fi
-    if [ $argument_count -gt 7 ]
+    if [ $argument_count -gt 9 ]
     then
-        __echo_to_stderr "rip_dvd_title: At most seven (7) arguments should be supplied"
+        __echo_to_stderr "rip_dvd_title: At most nine (9) arguments should be supplied"
         return 1
     fi
 
@@ -386,18 +388,32 @@ function rip_dvd_title() {
     # set the dvd release date
     local dvd_release_date="$6"
 
-    # get the DVD device
+    # set the DVD device
     local dvd_device
-    if [ $argument_count -eq 7 ]
+    if [ $argument_count -gt 6 ]
     then
         dvd_device="$7"
     else
-        dvd_device=$(__get_single_dvd_device_with_dvd "${@:7}")
+        dvd_device=$(__get_single_dvd_device_with_dvd)
+
+        if [ $? -ne 0 ]
+        then
+            return 1
+        fi
     fi
 
-    if [ $? -ne 0 ]
+    # set the output file name
+    local output_file_name="$dvd_title_name"
+    if [ $argument_count -gt 7 ]
     then
-        return 1
+        output_file_name="$8"
+    fi
+
+    # set the cover art name
+    local cover_art_name="$dvd_title_name"
+    if [ $argument_count -gt 8 ]
+    then
+        cover_art_name="$9"
     fi
 
     # check the specified title is actually on the disk
@@ -594,10 +610,10 @@ function rip_dvd_title() {
     fi
 
     # set cover art url
-    local cover_art_url="https://raw.githubusercontent.com/dvds/images/master/$dvd_title_name.jpg"
+    local cover_art_url="https://raw.githubusercontent.com/dvds/images/master/$cover_art_name.jpg"
 
     # retrieve the cover art
-    wget --quiet "$cover_art_url" --output-document="$tmp_directory/$dvd_title_name.jpg"
+    wget --quiet "$cover_art_url" --output-document="$tmp_directory/$cover_art_name.jpg"
 
     if [ $? -ne 0 ]
     then
@@ -610,10 +626,10 @@ function rip_dvd_title() {
 
     # create a variable to hold the container file path
     local dvd_title_container
-    dvd_title_container="$target_directory/$dvd_title_name.mkv"
+    dvd_title_container="$target_directory/$output_file_name.mkv"
 
     # create the matroska container
-    mkvmerge --quiet --segment-uid 0x00000000000000000000000000000000 --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$tmp_directory/$dvd_title_name.jpg" --output "$dvd_title_container" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_language" --default-track 1:1 "$dvd_remuxed_stream"
+    mkvmerge --quiet --segment-uid 0x00000000000000000000000000000000 --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$tmp_directory/$cover_art_name.jpg" --output "$dvd_title_container" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_language" --default-track 1:1 "$dvd_remuxed_stream"
 
     if [ $? -ne 0 ]
     then
