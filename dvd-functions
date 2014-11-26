@@ -610,7 +610,7 @@ function rip_dvd_title() {
     fi
 
     # set cover art url
-    local cover_art_url="https://raw.githubusercontent.com/dvds/images/master/$cover_art_name.jpg"
+    local cover_art_url="https://raw.githubusercontent.com/dvds/coverart/master/$cover_art_name.jpg"
 
     # retrieve the cover art
     wget --quiet "$cover_art_url" --output-document="$tmp_directory/$cover_art_name.jpg"
