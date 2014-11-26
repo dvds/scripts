@@ -2,11 +2,11 @@
 
 ## Overview
 
-Scripts is a repository that assists with the automation of repeatable, lossless DVD ripping.  It is written in pure bash and uses readily available GNU tooling only.
+[Scripts][1] is a repository that assists with the automation of repeatable, lossless DVD ripping.  It is written in pure bash and uses readily available GNU tooling only. It sources DVD cover artwork to embed into the output container(s) from a sister repository [coverart][2], which contains resized scans of DVD covers at a resolution that is purposefully unsuitable for printing.
 
 ## Disclaimer
 
-These scripts are **solely** for the purpose of legally backing up bought DVDs for private use, a process permitted under UK law [introduced on 1st October 2014][1]. I do not endorse these scripts (or derivations thereof) for any purpose that will infringe on copyright law.
+These scripts are **solely** for the purpose of legally backing up bought DVDs for private use, a process permitted under UK law [introduced on 1st October 2014][3]. I do not endorse these scripts (or derivations thereof) for any purpose that will infringe on copyright law.
 
 If you do not live in the UK then please check the applicable laws in your local jurisdiction to ensure that your use of these scripts is in compliance with your local laws.
 
@@ -29,9 +29,29 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7200 kb/s, 50 f
 
 ```
 
+## Troubleshooting
+
+### You haven't put a DVD in your DVD-Rom drive 
+
+When scripts detects this it'll report the following warning and terminate:
+
+```sh
+__get_dvd_device: No DVD devices found containing a DVD
+```
+
+### You haven't put the correct DVD in the DVD-Rom drive for the script that you are executing 
+
+When scripts detects this it'll report the following warning and terminate:
+
+```sh
+check_dvd_volume_label: DVD label 'PANPIPE_MOODS_7' does not match expected volume label 'WIGGLES_YMMFLD_UK'
+```
+
 ## License
 
-[Apache License, Version 2.0][2]
+[Apache License, Version 2.0][4]
 
-  [1]: https://www.gov.uk/exceptions-to-copyright#personal-copying-for-private-use
-  [2]: https://raw.githubusercontent.com/dvds/scripts/master/LICENSE
+  [1]: https://github.com/dvds/scripts
+  [2]: https://github.com/dvds/coverart
+  [3]: https://www.gov.uk/exceptions-to-copyright#personal-copying-for-private-use
+  [4]: https://raw.githubusercontent.com/dvds/scripts/master/LICENSE
