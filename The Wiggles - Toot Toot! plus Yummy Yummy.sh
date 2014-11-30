@@ -76,8 +76,22 @@ then
     exit 1
 fi
 
-# rip the feature title
-DVD_TITLE=$(rip_dvd_title "DVDs/$DVD_NAME" 4 1 "en" "$DVD_NAME" "$DVD_RELEASE_DATE" "$DVD_ISO")
+# rip the 1st feature title
+DVD_TITLE=$(rip_dvd_title "DVDs/$DVD_NAME" 4 1 "en" "Toot Toot!" "$DVD_RELEASE_DATE" "$DVD_ISO" "1. Toot Toot!" "$DVD_NAME" 0.000 2628.000)
+if [ $? -ne 0 ]
+then
+    exit 1
+fi
+
+# write out the attributes of the ripped title
+get_matroska_file_info "$DVD_TITLE"
+if [ $? -ne 0 ]
+then
+    exit 1
+fi
+
+# rip the 2nd feature title
+DVD_TITLE=$(rip_dvd_title "DVDs/$DVD_NAME" 4 1 "en" "Yummy Yummy" "$DVD_RELEASE_DATE" "$DVD_ISO" "2. Yummy Yummy" "$DVD_NAME" 2628.000 2172.14)
 if [ $? -ne 0 ]
 then
     exit 1
