@@ -323,8 +323,8 @@ function get_file_info() {
 # $7  - the DVD device where the disk is located, e.g. /dev/sr0 (optional: will scan if omitted)
 # $8  - the output file name (optional: will default to the title name)
 # $9  - the cover art name (optional: will default to the title name)
-# $10 - the position to start ripping within the title (optional: will default to 0)
-# $11 - the duration to rip within the title  (optional: will default to the title duration)
+# $10 - the position (in seconds) to start ripping within the title (optional: will default to 0)
+# $11 - the duration (in seconds) to rip within the title  (optional: will default to the remainder of the title duration)
 function rip_dvd_title() {
     local argument_count=$#
 
@@ -418,15 +418,18 @@ function rip_dvd_title() {
         cover_art_name="$9"
     fi
 
-    # set the position and duration
-    local dvd_rip_whole_title=1
+    # set the seek position argument
+    local dvd_title_position_seek=""
     if [ $argument_count -gt 9 ]
     then
-        dvd_rip_whole_title=0
+        dvd_title_position_seek="-ss ${10}"
+    fi
 
-        local dvd_rip_snippet_start="${10}"
-
-        local dvd_rip_snippet_duration="${11}"
+    # set the duration argument
+    local dvd_title_duration=""
+    if [ $argument_count -gt 10 ]
+    then
+        dvd_title_duration="-t ${11}"
     fi
 
     # check the specified title is actually on the disk
@@ -611,12 +614,7 @@ function rip_dvd_title() {
     fi
 
     # remux to a new vob with the video and only the specified audio language (and only the specified timing snippet)
-    if [ $dvd_rip_whole_title -eq 1 ]
-    then
-        avconv -loglevel quiet -i "$dvd_title_stream" -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream"
-    else
-        avconv -loglevel quiet -i "$dvd_title_stream" -ss "$dvd_rip_snippet_start" -t "$dvd_rip_snippet_duration" -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream"
-    fi
+    avconv -loglevel quiet -i "$dvd_title_stream" $dvd_title_position_seek $dvd_title_duration -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream"
 
     if [ $? -ne 0 ]
     then
