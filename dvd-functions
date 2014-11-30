@@ -424,10 +424,10 @@ function rip_dvd_title() {
     then
         dvd_rip_whole_title=0
 
-        local dvd_rip_snippet_start="$10"
+        local dvd_rip_snippet_start="${10}"
 
-        local dvd_rip_snippet_duration="$11"
-    fi    
+        local dvd_rip_snippet_duration="${11}"
+    fi
 
     # check the specified title is actually on the disk
     local dvd_title_count
