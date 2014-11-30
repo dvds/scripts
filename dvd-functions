@@ -314,27 +314,29 @@ function get_file_info() {
 
 # Extracts the audio and video stream of the specified title from the specified dvd device and compiles it into a Matroska container, along with the retrieved cover art
 # arguments:
-# $1 - the directory where the ripped title is to be written to
-# $2 - the title number
-# $3 - the DVD angle
-# $4 - the audio language
-# $5 - the title name
-# $6 - the release date
-# $7 - the DVD device where the disk is located, e.g. /dev/sr0 (optional: will scan if omitted)
-# $8 - the output file name (optional: will default to the title name)
-# $9 - the cover art name (optional: will default to the title name)
+# $1  - the directory where the ripped title is to be written to
+# $2  - the title number
+# $3  - the DVD angle
+# $4  - the audio language
+# $5  - the title name
+# $6  - the release date
+# $7  - the DVD device where the disk is located, e.g. /dev/sr0 (optional: will scan if omitted)
+# $8  - the output file name (optional: will default to the title name)
+# $9  - the cover art name (optional: will default to the title name)
+# $10 - the position to start ripping within the title (optional: will default to 0)
+# $11 - the duration to rip within the title  (optional: will default to the title duration)
 function rip_dvd_title() {
     local argument_count=$#
 
-    # check that at least 6 and no more than 9 arguments are provided
+    # check that at least 6 and no more than 11 arguments are provided
     if [ $argument_count -lt 6 ]
     then
         __echo_to_stderr "rip_dvd_title: At least six (6) arguments should be supplied"
         return 1
     fi
-    if [ $argument_count -gt 9 ]
+    if [ $argument_count -gt 11 ]
     then
-        __echo_to_stderr "rip_dvd_title: At most nine (9) arguments should be supplied"
+        __echo_to_stderr "rip_dvd_title: At most eleven (11) arguments should be supplied"
         return 1
     fi
 
@@ -415,6 +417,17 @@ function rip_dvd_title() {
     then
         cover_art_name="$9"
     fi
+
+    # set the position and duration
+    local dvd_rip_whole_title=1
+    if [ $argument_count -gt 9 ]
+    then
+        dvd_rip_whole_title=0
+
+        local dvd_rip_snippet_start="$10"
+
+        local dvd_rip_snippet_duration="$11"
+    fi    
 
     # check the specified title is actually on the disk
     local dvd_title_count
@@ -597,12 +610,29 @@ function rip_dvd_title() {
         return 1
     fi
 
-    # remux to a new vob with the video and only the specified audio language
-    avconv -i "$dvd_title_stream" -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream" 2> /dev/null
+    # remux to a new vob with the video and only the specified audio language (and only the specified timing snippet)
+    if [ $dvd_rip_whole_title -eq 1 ]
+    then
+        avconv -loglevel quiet -i "$dvd_title_stream" -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream"
+    else
+        avconv -loglevel quiet -i "$dvd_title_stream" -ss "$dvd_rip_snippet_start" -t "$dvd_rip_snippet_duration" -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream"
+    fi
 
     if [ $? -ne 0 ]
     then
         __echo_to_stderr "rip_dvd_title: Cannot remux streams from $dvd_title_stream to $dvd_remuxed_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # delete the original vob (to save space)
+    rm --force "$dvd_title_stream"
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot delete file $dvd_title_stream"
 
         __delete_directory "$tmp_directory"
 
