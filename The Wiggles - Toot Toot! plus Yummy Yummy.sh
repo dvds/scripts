@@ -91,7 +91,7 @@ then
 fi
 
 # rip the 2nd feature title
-DVD_TITLE=$(rip_dvd_title "DVDs/$DVD_NAME" 4 1 "en" "Yummy Yummy" "$DVD_RELEASE_DATE" "$DVD_ISO" "2. Yummy Yummy" "$DVD_NAME" 2628.000 2172.14)
+DVD_TITLE=$(rip_dvd_title "DVDs/$DVD_NAME" 4 1 "en" "Yummy Yummy" "$DVD_RELEASE_DATE" "$DVD_ISO" "2. Yummy Yummy" "$DVD_NAME" 2628.000)
 if [ $? -ne 0 ]
 then
     exit 1
