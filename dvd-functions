@@ -549,6 +549,14 @@ function rip_dvd_title() {
             __echo_to_stderr "rip_dvd_title: Cannot create target directory"
             return 1
         fi
+
+        # set the date on the copy
+        __set_file_accessed_time "$target_directory" "$dvd_release_date"
+
+        if [ $? -ne 0 ]
+        then
+            return 1
+        fi
     fi
 
     # create a temporary directory to hold the stream of DVD data
