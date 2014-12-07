@@ -684,7 +684,7 @@ function rip_dvd_title() {
     fi
 
     # stamp the release date on the parent folder of the output file
-    __set_file_accessed_time "$dvd_title_container/.." "$dvd_release_date"
+    __set_file_accessed_time "$target_directory" "$dvd_release_date"
 
     if [ $? -ne 0 ]
     then
