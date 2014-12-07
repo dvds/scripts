@@ -549,14 +549,6 @@ function rip_dvd_title() {
             __echo_to_stderr "rip_dvd_title: Cannot create target directory"
             return 1
         fi
-
-        # set the date on the copy
-        __set_file_accessed_time "$target_directory" "$dvd_release_date"
-
-        if [ $? -ne 0 ]
-        then
-            return 1
-        fi
     fi
 
     # create a temporary directory to hold the stream of DVD data
@@ -681,7 +673,18 @@ function rip_dvd_title() {
     # change Track UID values
     # change File UID values
 
+    # stamp the release date on the output file
     __set_file_accessed_time "$dvd_title_container" "$dvd_release_date"
+
+    if [ $? -ne 0 ]
+    then
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # stamp the release date on the parent folder of the output file
+    __set_file_accessed_time "$dvd_title_container/.." "$dvd_release_date"
 
     if [ $? -ne 0 ]
     then
