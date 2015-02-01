@@ -10,6 +10,24 @@ These scripts are **solely** for the purpose of legally backing up bought DVDs f
 
 If you do not live in the UK then please check the applicable laws in your local jurisdiction to ensure that your use of these scripts is in compliance with your local laws.
 
+## Prerequisites
+
+> libdvdcss2 is required to perform any ripping!
+
+Due to the questionable legality of circumventing CSS on commercial DVDs, most linux distributions will sensibly not ship libdvdcss2 in their standard installs.  You will need to generally have to jump a small hurdle or build from source to get this required library.
+
+On Debian-based systems this hurdle is pretty low:
+
+1. Install libdvdread4:
+```sh
+sudo apt-get install libdvdread4
+```
+
+2. Then install libdvdcss:
+```sh
+sudo /usr/share/doc/libdvdread4/install-css.sh
+```
+
 ## Example
 
 ```sh
@@ -31,21 +49,19 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7200 kb/s, 50 f
 
 ## Troubleshooting
 
-### You haven't put a DVD in your DVD-Rom drive 
-
-When scripts detects this it'll report the following warning and terminate:
+The following are a few common error messages and their solutions.
 
 ```sh
 __get_dvd_device: No DVD devices found containing a DVD
 ```
 
-### You haven't put the correct DVD in the DVD-Rom drive for the script that you are executing 
-
-When scripts detects this it'll report the following warning and terminate:
+You haven't put a DVD in your DVD-Rom drive. No explanation required here as to how to fix this.
 
 ```sh
 check_dvd_volume_label: DVD label 'PANPIPE_MOODS_7' does not match expected volume label 'WIGGLES_YMMFLD_UK'
 ```
+
+You haven't put the correct DVD in the DVD-Rom drive for the script that you are executing. Change the DVD or run the correct script.
 
 ## License
 
