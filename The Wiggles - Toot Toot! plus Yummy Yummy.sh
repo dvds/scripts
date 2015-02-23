@@ -63,21 +63,21 @@ then
 fi
 
 # clone the dvd
-DVD_ISO=$(clone_dvd "DVD isos" "$DVD_NAME" "$DVD_RELEASE_DATE")
+DVD_IMAGE=$(clone_dvd "DVD images" "$DVD_NAME" "$DVD_RELEASE_DATE")
 if [ $? -ne 0 ]
 then
     exit 1
 fi
 
 # write out the attributes of the cloned dvd
-get_file_info "$DVD_ISO"
+get_file_info "$DVD_IMAGE"
 if [ $? -ne 0 ]
 then
     exit 1
 fi
 
 # rip the 1st feature title
-DVD_TITLE=$(rip_dvd_title "DVDs/$DVD_NAME" 4 1 "en" "Toot Toot!" "$DVD_RELEASE_DATE" "$DVD_ISO" "1. Toot Toot!" "$DVD_NAME" 0.000 2628.000)
+DVD_TITLE=$(rip_dvd_title "DVD rips/$DVD_NAME" 4 1 "en" "Toot Toot!" "$DVD_RELEASE_DATE" "$DVD_IMAGE" "1. Toot Toot!" "$DVD_NAME" 0.000 2628.000)
 if [ $? -ne 0 ]
 then
     exit 1
@@ -91,7 +91,7 @@ then
 fi
 
 # rip the 2nd feature title
-DVD_TITLE=$(rip_dvd_title "DVDs/$DVD_NAME" 4 1 "en" "Yummy Yummy" "$DVD_RELEASE_DATE" "$DVD_ISO" "2. Yummy Yummy" "$DVD_NAME" 2628.000)
+DVD_TITLE=$(rip_dvd_title "DVD rips/$DVD_NAME" 4 1 "en" "Yummy Yummy" "$DVD_RELEASE_DATE" "$DVD_IMAGE" "2. Yummy Yummy" "$DVD_NAME" 2628.000)
 if [ $? -ne 0 ]
 then
     exit 1
