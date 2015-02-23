@@ -102,7 +102,7 @@ function check_dvd_volume_label() {
 }
 
 
-# Creates a bit-for-bit copy of the DVD in the ISO format in the specified directory with the specified name and date
+# Creates a bit-for-bit image of the DVD in the specified directory with the specified name and date
 # arguments:
 # $1 - the directory where the clone is to be written to
 # $2 - the DVD title
@@ -186,19 +186,19 @@ function clone_dvd() {
         return 1
     fi
 
-    # create DVD iso file variable
-    local dvd_iso
-    dvd_iso="$target_directory/$dvd_title.iso"
+    # create DVD image file variable
+    local dvd_image
+    dvd_image="$target_directory/$dvd_title.image"
 
     # make a bit for bit copy of the dvd
-    dd if="$dvd_device" of="$dvd_iso" bs=2048 2> /dev/null
+    dd if="$dvd_device" of="$dvd_image" bs=2048 2> /dev/null
 
     if [ $? -ne 0 ]
     then
         __echo_to_stderr "clone_dvd: DVD appears to have structure protection (ARccOS or similar)"
 
         # try again, but don't fail on errors and pad out error blocks
-        dd if="$dvd_device" of="$dvd_iso" bs=2048 conv=noerror,sync 2> /dev/null
+        dd if="$dvd_device" of="$dvd_image" bs=2048 conv=noerror,sync 2> /dev/null
 
         if [ $? -ne 0 ]
         then
@@ -209,7 +209,7 @@ function clone_dvd() {
 
     # get the size of the copy
     local dvd_image_size
-    dvd_image_size=$(__get_file_size "$dvd_iso")
+    dvd_image_size=$(__get_file_size "$dvd_image")
 
     if [ $? -ne 0 ]
     then
@@ -224,23 +224,23 @@ function clone_dvd() {
     fi
 
     # make the copy readonly
-    chmod 444 "$dvd_iso"
+    chmod 444 "$dvd_image"
 
     if [ $? -ne 0 ]
     then
-        __echo_to_stderr "clone_dvd: Cannot make $dvd_iso read-only"
+        __echo_to_stderr "clone_dvd: Cannot make $dvd_image read-only"
         return 1
     fi
 
     # set the date on the copy
-    __set_file_accessed_time "$dvd_iso" "$dvd_release_date"
+    __set_file_accessed_time "$dvd_image" "$dvd_release_date"
 
     if [ $? -ne 0 ]
     then
         return 1
     fi
 
-    echo "$dvd_iso"
+    echo "$dvd_image"
 
     return 0
 }
