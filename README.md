@@ -14,7 +14,7 @@ If you do not live in the UK then please check the applicable laws in your local
 
 > libdvdcss2 is required to perform any ripping!
 
-Due to the questionable legality of circumventing CSS on commercial DVDs, most linux distributions will sensibly not ship libdvdcss2 in their standard installs.  You will need to generally have to jump a small hurdle or build from source to get this required library.
+Due to the questionable legality of circumventing CSS on commercial DVDs, most linux distributions will sensibly not ship libdvdcss2 in their standard installs.  You will generally have to jump a small hurdle or simply build from source to get this required library.
 
 On Debian-based systems this hurdle is pretty low:
 
@@ -22,7 +22,6 @@ On Debian-based systems this hurdle is pretty low:
 ```sh
 sudo apt-get install libdvdread4
 ```
-
 2. Then install libdvdcss:
 ```sh
 sudo /usr/share/doc/libdvdread4/install-css.sh
@@ -51,12 +50,14 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7200 kb/s, 50 f
 
 The following are a few common error messages and their solutions.
 
+1.
 ```sh
 __get_dvd_device: No DVD devices found containing a DVD
 ```
 
 You haven't put a DVD in your DVD-Rom drive. No explanation required here as to how to fix this.
 
+2.
 ```sh
 check_dvd_volume_label: DVD label 'PANPIPE_MOODS_7' does not match expected volume label 'WIGGLES_YMMFLD_UK'
 ```
