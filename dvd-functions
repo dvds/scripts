@@ -224,7 +224,7 @@ function clone_dvd() {
     fi
 
     # make the copy readonly
-    chmod 444 "$dvd_image"
+    chmod 0444 "$dvd_image"
 
     if [ $? -ne 0 ]
     then
@@ -937,6 +937,18 @@ function rip_dvd_title() {
         __echo_to_stderr "rip_dvd_title: Cannot delete file $dvd_title_mkv_attachment_fileuid_changed"
 
         __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # make the mkv file readonly
+    chmod 0444 "$dvd_title_mkv"
+
+    if [ $? -ne 0 ]
+    then
+        __delete_directory "$tmp_directory"
+
+        __echo_to_stderr "rip_dvd_title: Cannot make $dvd_title_mkv read-only"
 
         return 1
     fi
