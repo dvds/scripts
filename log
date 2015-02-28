@@ -11,6 +11,19 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7500 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 448 kb/s
 
 
+$ ./Annabelle\'s\ Wish.sh
+Annabelle's Wish.image
+2,585,362,432 bytes
+d6592f23f7fe6dced29c7535540065e5 (MD5)
+
+Annabelle's Wish.mkv
+2,410,487,802 bytes
+21c0154dbaa9c3c88fad7f31ebb740a2 (MD5)
+Duration: 00:51:55.84, start: 0.000000, bitrate: 6188 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+
 $ ./Barney\ -\ Riff\'s\ Clubhouse.sh
 Barney - Riff's Clubhouse.image
 2,981,199,872 bytes
