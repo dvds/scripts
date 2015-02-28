@@ -97,6 +97,13 @@ then
     exit 1
 fi
 
+# make DVD rips directory readonly
+chmod 0555 "DVD rips/$DVD_NAME"
+if [ $? -ne 0 ]
+then
+    exit 1
+fi
+
 # write out the attributes of the ripped title
 get_matroska_file_info "$DVD_TITLE"
 if [ $? -ne 0 ]

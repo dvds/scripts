@@ -11,6 +11,26 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7500 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 448 kb/s
 
 
+$ ./Angelina\ Ballerina\ -\ Angelina\'s\ Star\ Performance.sh
+Angelina Ballerina - Angelina's Star Performance.image
+2,585,362,432 bytes
+b23465463801cd9c91483e98fd660eb1 (MD5)
+
+1. Act I.mkv
+1,115,882,088 bytes
+33c8a0ec558219248d9f073dc6943aea (MD5)
+Duration: 00:24:32.92, start: 0.000000, bitrate: 6060 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+2. Act II.mkv
+1,273,246,453 bytes
+a131474c02a3b910ca33a6729c2a0909 (MD5)
+Duration: 00:28:38.65, start: 0.000000, bitrate: 5926 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+
 $ ./Annabelle\'s\ Wish.sh
 Annabelle's Wish.image
 2,585,362,432 bytes
