@@ -83,3 +83,24 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
 
+$ ./The\ Wiggles\ -\ Splish\ Splash\ Big\ Red\ Boat\ \&\ Wiggle\ Bay.sh 
+The Wiggles - Splish Splash Big Red Boat & Wiggle Bay.image
+6,754,293,760 bytes
+cce3cf4a857608cc3b9ffabd2f9252b6 (MD5)
+
+1. Splish Splash Big Red Boat.mkv
+3,758,022,800 bytes
+e0e883c0ff40747bee3e4445defd7906 (MD5)
+Duration: 01:20:06.32, start: 0.000000, bitrate: 6255 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9570 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+2. Wiggle Bay.mkv
+2,233,535,529 bytes
+b3dcc21f987c644636094e384d612f3f (MD5)
+Duration: 00:41:16.40, start: 0.000000, bitrate: 7215 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9200 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+
+
