@@ -10,6 +10,7 @@ Duration: 00:47:44.44, start: 0.000000, bitrate: 6568 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 448 kb/s
 
+
 $ ./Barney\ -\ Riff\'s\ Clubhouse.sh
 Barney - Riff's Clubhouse.image
 2,981,199,872 bytes
@@ -21,5 +22,18 @@ Barney - Riff's Clubhouse.mkv
 Duration: 00:57:06.28, start: 0.000000, bitrate: 6259 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+
+$ ./Help\!\ I\'m\ a\ Fish.sh
+Help! I'm a Fish.image
+4,643,471,360 bytes
+a4c7f70e5c017cf69dafaee056604ea9 (MD5)
+
+Help! I'm a Fish.mkv
+2,746,826,899 bytes
+15b40d2b0dd9ebb7246b9c4462aa8dbd (MD5)
+Duration: 01:16:57.56, start: 0.000000, bitrate: 4758 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
 
