@@ -83,6 +83,19 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
 
+$ ./The\ Wiggles\ -\ \'You\ Make\ Me\ Feel\ Like\ Dancing\'.sh
+The Wiggles - 'You Make Me Feel Like Dancing'.image
+4,652,333,056 bytes
+98eb59f41abd4b9dae0cfcc02b86afcf (MD5)
+
+The Wiggles - 'You Make Me Feel Like Dancing'.mkv
+3,058,514,841 bytes
+e50442dabef01a572fcfe85f4df5bce9 (MD5)
+Duration: 01:00:11.68, start: 0.000000, bitrate: 6774 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+
 $ ./The\ Wiggles\ -\ Splish\ Splash\ Big\ Red\ Boat\ \&\ Wiggle\ Bay.sh 
 The Wiggles - Splish Splash Big Red Boat & Wiggle Bay.image
 6,754,293,760 bytes
