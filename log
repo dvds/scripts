@@ -103,4 +103,23 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9200 kb/s, 50 fp
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
 
 
+$ ./The\ Wiggles\ -\ Toot\ Toot\!\ plus\ Yummy\ Yummy.sh 
+The Wiggles - Toot Toot! plus Yummy Yummy.image
+6,342,144,000 bytes
+527c8f1fac0cb85d6ffc4632d4b601c2 (MD5)
+
+1. Toot Toot!.mkv
+2,831,010,859 bytes
+18fb6a5cb48c2ffcfbb8424166bf0396 (MD5)
+Duration: 00:43:48.04, start: 0.000000, bitrate: 8617 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+2. Yummy Yummy.mkv
+2,367,224,619 bytes
+8ba83a7b99a0648fd6ffbc3452f12282 (MD5)
+Duration: 00:36:26.00, start: 0.000000, bitrate: 8663 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
 
