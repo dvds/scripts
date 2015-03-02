@@ -476,7 +476,7 @@ function rip_dvd_title() {
 
     # count the number of audio streams that have the specified language
     local dvd_audio_substreams_count
-    dvd_audio_substreams_count=$(echo "$dvd_audio_substreams" | wc -l)
+    dvd_audio_substreams_count=$(echo "$dvd_audio_substreams" | grep -v '^\s*$' | wc -l)
 
     if [ $? -ne 0 ]
     then
@@ -484,11 +484,36 @@ function rip_dvd_title() {
         return 1
     fi
 
-    # if there is (somehow) no track with the specified language then exit noisily
+    # if there is no track with the specified language then get all audio tracks
     if [ "$dvd_audio_substreams_count" -eq 0 ]
     then
-        __echo_to_stderr "rip_dvd_title: DVD does not contain audio language $dvd_audio_language for DVD title $dvd_title"
-        return 1
+        __echo_to_stderr "rip_dvd_title: DVD title $dvd_title does not have specified audio language $dvd_audio_language defined"
+
+        # get all audio tracks on the disk
+        dvd_audio_substreams=$(mplayer -dvd-device "$dvd_device" dvd://$dvd_title -frames 0 -identify 2> /dev/null | grep "ID_AUDIO_ID=" | sort -u | sed 's/ID_AUDIO_ID=//')
+
+        if [ $? -ne 0 ]
+        then
+            __echo_to_stderr "rip_dvd_title: Cannot get audio tracks for title $dvd_title on DVD device $dvd_device"
+            return 1
+        fi
+
+        # count the number of audio streams
+        local dvd_audio_substreams_count
+        dvd_audio_substreams_count=$(echo "$dvd_audio_substreams" | grep -v '^\s*$' | wc -l)
+
+        if [ $? -ne 0 ]
+        then
+            __echo_to_stderr "rip_dvd_title: Cannot count the number of audio streams for title $dvd_title on DVD device $dvd_device"
+            return 1
+        fi
+
+        # if there is still (somehow) no audio track then exit noisily
+        if [ "$dvd_audio_substreams_count" -eq 0 ]
+        then
+            __echo_to_stderr "rip_dvd_title: DVD title $dvd_title does not have any audio tracks defined"
+            return 1
+        fi
     fi
 
     local dvd_audio_substream_id
@@ -525,8 +550,33 @@ function rip_dvd_title() {
     # if we somehow haven't got an audio substream then exit noisily
     if [ -z "$dvd_audio_substream_id" ]
     then
-        __echo_to_stderr "rip_dvd_title: An audio substream has not been set for audio language $dvd_audio_language for DVD title $dvd_title"
+        __echo_to_stderr "rip_dvd_title: An audio substream has not been set for DVD title $dvd_title"
         return 1
+    fi
+
+    # get the language of the audio substream
+    dvd_audio_stream_language=$(mplayer -dvd-device "$dvd_device" dvd://$dvd_title -frames 0 -identify 2> /dev/null | grep "ID_AID_"$dvd_audio_substream_id"_LANG=" | sed 's/ID_AID_'$dvd_audio_substream_id'_LANG=//')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot get stream language for audio stream $dvd_audio_substream_id of title $dvd_title on DVD device $dvd_device"
+        return 1
+    fi
+
+    # get line count of non-empty language stream
+    local dvd_audio_stream_language_count
+    dvd_audio_stream_language_count=$(echo "$dvd_audio_stream_language" | grep -v '^\s*$' | wc -l)
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot find the audio stream language for audio stream $dvd_audio_substream_id for title $dvd_title on DVD device $dvd_device"
+        return 1
+    fi
+
+    # if there is no audio language for the stream then set it as 'undefined'
+    if [ "$dvd_audio_stream_language_count" -eq 0 ]
+    then
+        dvd_audio_stream_language="und"
     fi
 
     # Convert the audio substream id to a hexadecimal number
@@ -602,7 +652,7 @@ function rip_dvd_title() {
 
     # get a remuxed stream path from the title stream, and including the specified language
     local dvd_remuxed_stream
-    dvd_remuxed_stream="$tmp_directory/"$(__get_file_name_without_extension "$dvd_title_stream")".$dvd_audio_language."$(__get_file_extension "$dvd_title_stream")
+    dvd_remuxed_stream="$tmp_directory/"$(__get_file_name_without_extension "$dvd_title_stream")".$dvd_audio_stream_language."$(__get_file_extension "$dvd_title_stream")
 
     if [ $? -ne 0 ]
     then
@@ -662,7 +712,7 @@ function rip_dvd_title() {
     dvd_title_mkv_unedited="$tmp_directory/$output_file_name.mkv.unedited"
 
     # create the matroska container
-    mkvmerge --quiet --segment-uid 0x00000000000000000000000000000000 --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$cover_art_jpg" --output "$dvd_title_mkv_unedited" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_language" --default-track 1:1 "$dvd_remuxed_stream"
+    mkvmerge --quiet --segment-uid 0x00000000000000000000000000000000 --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$cover_art_jpg" --output "$dvd_title_mkv_unedited" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_stream_language" --default-track 1:1 "$dvd_remuxed_stream"
 
     if [ $? -ne 0 ]
     then
