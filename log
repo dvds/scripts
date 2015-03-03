@@ -83,6 +83,116 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
 
+$ ./The\ Magic\ Key\ -\ The\ Complete\ Collection\ \(Disc\ 1\).sh 
+The Magic Key - The Complete Collection (Disc 1).image
+8,196,489,216 bytes
+71c0f182779106c24045fc5e137ebf57 (MD5)
+
+rip_dvd_title: DVD title 30 does not have specified audio language en defined
+01. H.M.S. Sweet Tooth.mkv
+598,710,045 bytes
+3fd183d5e4ee04de39378f340cb5e6fc (MD5)
+Duration: 00:14:11.42, start: 0.000000, bitrate: 5625 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 32 does not have specified audio language en defined
+02. Lug and the Giant Storks.mkv
+599,524,719 bytes
+1a407f07a561a44516f2e72894e33740 (MD5)
+Duration: 00:14:12.54, start: 0.000000, bitrate: 5625 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 34 does not have specified audio language en defined
+03. The Rook King.mkv
+599,894,854 bytes
+9310c5ecf02cc8f0c3092aeb90224326 (MD5)
+Duration: 00:14:11.32, start: 0.000000, bitrate: 5637 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 36 does not have specified audio language en defined
+04. Clutterland Band.mkv
+600,322,008 bytes
+5b4377fc1576f121039a0e7125154802 (MD5)
+Duration: 00:14:13.08, start: 0.000000, bitrate: 5629 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 38 does not have specified audio language en defined
+05. Troll Talk.mkv
+599,578,462 bytes
+b2d35603a86900c5fdf28b9b70c8da2c (MD5)
+Duration: 00:14:11.20, start: 0.000000, bitrate: 5635 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 40 does not have specified audio language en defined
+06. The Patchworker.mkv
+599,868,593 bytes
+8bc5ce4d57416352dc3ce2a362e9308a (MD5)
+Duration: 00:14:11.36, start: 0.000000, bitrate: 5636 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 42 does not have specified audio language en defined
+07. Code Calling.mkv
+599,840,058 bytes
+88675ee16fe07edb156ea0c19b79f66c (MD5)
+Duration: 00:14:12.60, start: 0.000000, bitrate: 5628 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 44 does not have specified audio language en defined
+08. Zandoodle and the Wheezlebang.mkv
+599,191,908 bytes
+c0adfb191c2c6670af3fb0d20dd00f38 (MD5)
+Duration: 00:14:12.60, start: 0.000000, bitrate: 5622 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 46 does not have specified audio language en defined
+09. Biff of the Jungle.mkv
+599,289,163 bytes
+e671944a5e919b901ae57cb820a3efd5 (MD5)
+Duration: 00:14:11.93, start: 0.000000, bitrate: 5627 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 48 does not have specified audio language en defined
+10. Nadim's Machine.mkv
+599,679,860 bytes
+e0e478c1cb3cb2d4d88f889a6bb995d2 (MD5)
+Duration: 00:14:12.06, start: 0.000000, bitrate: 5630 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 50 does not have specified audio language en defined
+11. The Flying Circus.mkv
+599,417,171 bytes
+0b1fb6bf4beaae2abc327337fb86f50c (MD5)
+Duration: 00:14:07.90, start: 0.000000, bitrate: 5655 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 52 does not have specified audio language en defined
+12. Fraser the Eraser.mkv
+597,356,572 bytes
+c100b2abbc73f3d4cb54fda665bf310e (MD5)
+Duration: 00:14:12.57, start: 0.000000, bitrate: 5605 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 54 does not have specified audio language en defined
+13. The Anneena Academy.mkv
+598,279,630 bytes
+7ca91ce7ab3d5c1cb8c143be78f1b0ca (MD5)
+Duration: 00:14:13.02, start: 0.000000, bitrate: 5610 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+
 $ ./The\ Wiggles\ -\ \'You\ Make\ Me\ Feel\ Like\ Dancing\'.sh
 The Wiggles - 'You Make Me Feel Like Dancing'.image
 4,652,333,056 bytes
