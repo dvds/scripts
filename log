@@ -193,6 +193,116 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fp
 Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
 
 
+$ ./The\ Magic\ Key\ -\ The\ Complete\ Collection\ \(Disc\ 2\).sh 
+The Magic Key - The Complete Collection (Disc 2).image
+8,188,985,344 bytes
+d04938e71f651ed87fd73dc28d8c5951 (MD5)
+
+rip_dvd_title: DVD title 31 does not have specified audio language en defined
+01. Dragon Land.mkv
+600,060,084 bytes
+fbf2e9145055325079528f09c5d30890 (MD5)
+Duration: 00:14:12.60, start: 0.000000, bitrate: 5630 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 33 does not have specified audio language en defined
+02. The Queen of Hearts.mkv
+599,769,183 bytes
+8992d5f47323da8e3f11e60e20360c9f (MD5)
+Duration: 00:14:12.60, start: 0.000000, bitrate: 5627 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 35 does not have specified audio language en defined
+03. Floppy and the Puppies.mkv
+588,359,459 bytes
+ba49f330bb506d0f821560077f0d50ed (MD5)
+Duration: 00:14:12.64, start: 0.000000, bitrate: 5520 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 37 does not have specified audio language en defined
+04. The Giant and the Knee Nibblers.mkv
+599,870,806 bytes
+13fbc7a1987825ef9f6e7d85d0a3473e (MD5)
+Duration: 00:14:12.54, start: 0.000000, bitrate: 5628 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 39 does not have specified audio language en defined
+05. The Cream Cake Mystery.mkv
+600,193,875 bytes
+8cab4f2d2fb14fccffea9bf43387ce79 (MD5)
+Duration: 00:14:12.54, start: 0.000000, bitrate: 5632 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 41 does not have specified audio language en defined
+06. Mister Hansel and Miss Gretal.mkv
+599,429,847 bytes
+21e094a8fb452f949c55294096d7b84f (MD5)
+Duration: 00:14:12.57, start: 0.000000, bitrate: 5624 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 43 does not have specified audio language en defined
+07. The Sound Monster.mkv
+598,920,289 bytes
+b47a554dce97e628cdb54488982ea23c (MD5)
+Duration: 00:14:12.57, start: 0.000000, bitrate: 5619 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 45 does not have specified audio language en defined
+08. Tumbleweed Desert.mkv
+600,233,045 bytes
+b3fd0fc6de0842c3304341eadc3ed7a8 (MD5)
+Duration: 00:14:12.73, start: 0.000000, bitrate: 5631 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 47 does not have specified audio language en defined
+09. The Stone of Contentment.mkv
+599,643,718 bytes
+e35b6976f5945855f46cd58291014dab (MD5)
+Duration: 00:14:12.57, start: 0.000000, bitrate: 5626 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 49 does not have specified audio language en defined
+10. The Demon Drill.mkv
+596,215,039 bytes
+4230a5cc6c3efd216a6bbf1cbf82356d (MD5)
+Duration: 00:14:12.36, start: 0.000000, bitrate: 5595 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 51 does not have specified audio language en defined
+11. Fabulous Fancy Foods.mkv
+599,964,697 bytes
+690febff64aa09cbdeed41ae3797e889 (MD5)
+Duration: 00:14:12.57, start: 0.000000, bitrate: 5629 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 53 does not have specified audio language en defined
+12. The Fountain of Youth.mkv
+600,186,729 bytes
+ee491abbcdd3a65684d605662199dd1c (MD5)
+Duration: 00:14:12.57, start: 0.000000, bitrate: 5631 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+rip_dvd_title: DVD title 55 does not have specified audio language en defined
+13. Underwater World.mkv
+600,164,058 bytes
+95abb65a6a03d8ced1cb185d47286919 (MD5)
+Duration: 00:14:12.70, start: 0.000000, bitrate: 5630 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 7500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+
 $ ./The\ Wiggles\ -\ \'You\ Make\ Me\ Feel\ Like\ Dancing\'.sh
 The Wiggles - 'You Make Me Feel Like Dancing'.image
 4,652,333,056 bytes
