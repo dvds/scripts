@@ -356,3 +356,30 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fp
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
 
 
+$ ./Wallace\ \&\ Gromit\ -\ 3\ Cracking\ Adventures\!.sh 
+Wallace & Gromit - 3 Cracking Adventures!.image
+3,535,900,672 bytes
+c139672fb6c5cd44661d32f81a577c8b (MD5)
+
+1. A Grand Day Out.mkv
+647,222,131 bytes
+d187b9f116a91d4255f17cf4c096f3fa (MD5)
+Duration: 00:22:41.00, start: 0.000000, bitrate: 3804 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 8500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 448 kb/s
+
+2. The Wrong Trousers.mkv
+827,876,168 bytes
+16ed8ec762144235084b2780ff2c749f (MD5)
+Duration: 00:28:59.40, start: 0.000000, bitrate: 3807 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 8500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 448 kb/s
+
+3. A Close Shave.mkv
+856,876,872 bytes
+6c68ea68bfb672c9cda6e9bca4ea0f47 (MD5)
+Duration: 00:30:03.20, start: 0.000000, bitrate: 3801 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 8500 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 448 kb/s
+
+
