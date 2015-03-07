@@ -17,6 +17,7 @@
 # define variables
 DVD_VOLUME_LABEL="MAGIC_KEY_DISC_2"
 DVD_RELEASE_DATE="11 Sep 2006"
+DVD_COVERART_NAME="The Magic Key - The Complete Collection"
 
 # create temporary file for DVD bash functions
 DVD_FUNCTIONS=$(mktemp)
@@ -75,9 +76,6 @@ if [ $? -ne 0 ]
 then
     exit 1
 fi
-
-# set variable to hold the coverart name
-DVD_COVERART_NAME="The Magic Key - The Complete Collection"
 
 # rip the 1st feature title
 DVD_TITLE=$(rip_dvd_title "DVD rips/$DVD_NAME" 31 1 "en" "Dragon Land" "$DVD_RELEASE_DATE" "$DVD_IMAGE" "01. Dragon Land" "$DVD_COVERART_NAME")
