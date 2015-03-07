@@ -83,6 +83,110 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
 
+$ ./Mr\ Benn\ -\ The\ Complete\ Series.sh 
+Mr Benn - The Complete Series.image
+7,769,128,960 bytes
+579a97bc086d5c4302b5ecec62d659a5 (MD5)
+
+01. The Red Knight.mkv
+564,519,601 bytes
+6cf62316ab0c1bc36431c8a699105590 (MD5)
+Duration: 00:14:23.60, start: 0.000000, bitrate: 5229 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+02. The Hunter.mkv
+537,221,910 bytes
+49286b1adebdcc38321ffc23ed7d8e35 (MD5)
+Duration: 00:13:41.76, start: 0.000000, bitrate: 5229 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+03. The Cook.mkv
+548,856,198 bytes
+428543fa03b1c15b448a40c38755fb44 (MD5)
+Duration: 00:13:59.48, start: 0.000000, bitrate: 5230 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+04. The Caveman.mkv
+562,113,082 bytes
+cab2d438b4b6778a3b92346112beb825 (MD5)
+Duration: 00:14:19.80, start: 0.000000, bitrate: 5230 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+05. The Balloonist.mkv
+475,691,671 bytes
+a133815c43b97aa719545f3c8f5389e4 (MD5)
+Duration: 00:12:07.68, start: 0.000000, bitrate: 5229 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+06. The Zoo Keeper.mkv
+491,886,236 bytes
+9cba5a129f2bc4f66f7b44a7574392da (MD5)
+Duration: 00:12:32.68, start: 0.000000, bitrate: 5228 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+07. The Diver.mkv
+574,105,650 bytes
+f87b37dca1ea2c08ded8b4f73e6b45bc (MD5)
+Duration: 00:14:43.60, start: 0.000000, bitrate: 5197 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+08. The Wizard.mkv
+489,498,684 bytes
+2c64049834609fe0217bb2fca2a3d28e (MD5)
+Duration: 00:12:33.80, start: 0.000000, bitrate: 5194 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+09. The Cowboy.mkv
+569,993,792 bytes
+97e1fd1030cff3608be36eb5d5f5d44c (MD5)
+Duration: 00:14:37.60, start: 0.000000, bitrate: 5195 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+10. The Clown.mkv
+487,861,085 bytes
+d2ed8d15963dce01c4802fcbe0b70f69 (MD5)
+Duration: 00:12:30.80, start: 0.000000, bitrate: 5198 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+11. The Magic Carpet.mkv
+542,407,315 bytes
+00b130c0a112bdb639b43af6be87a833 (MD5)
+Duration: 00:13:54.80, start: 0.000000, bitrate: 5197 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+12. The Spaceman.mkv
+507,993,991 bytes
+0c720c3825a270a8d5449e74dd151e48 (MD5)
+Duration: 00:13:01.80, start: 0.000000, bitrate: 5198 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+13. The Pirate.mkv
+557,714,473 bytes
+ceb7fb3d22dfdbbc8c05d7b593708492 (MD5)
+Duration: 00:14:19.00, start: 0.000000, bitrate: 5194 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+14. The Gladiator.mkv
+584,739,728 bytes
+62bfe6861758e3cc8ec3c499ba8ae01b (MD5)
+Duration: 00:15:15.04, start: 0.000000, bitrate: 5112 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
+
+
 $ ./The\ Magic\ Key\ -\ The\ Complete\ Collection\ \(Disc\ 1\).sh 
 The Magic Key - The Complete Collection (Disc 1).image
 8,196,489,216 bytes
