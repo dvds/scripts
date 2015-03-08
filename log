@@ -187,6 +187,19 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fp
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
 
 
+$ ./The\ Gruffalo.sh 
+The Gruffalo.image
+2,573,234,176 bytes
+b07fd14ad0e31ffc5389cbd7b2a7340b (MD5)
+
+The Gruffalo.mkv
+1,455,365,401 bytes
+ec61a386a57101eb511c7cf2b7075530 (MD5)
+Duration: 00:27:00.24, start: 0.000000, bitrate: 7185 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 8000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, 5.1, fltp, 448 kb/s
+
+
 $ ./The\ Magic\ Key\ -\ The\ Complete\ Collection\ \(Disc\ 1\).sh 
 The Magic Key - The Complete Collection (Disc 1).image
 8,196,489,216 bytes
