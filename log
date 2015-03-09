@@ -57,6 +57,19 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fp
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
 
 
+$ ./Curious\ George.sh
+Curious George.image
+6,121,195,520 bytes
+e8d89649526dddbfa5d96be691652187 (MD5)
+
+Curious George.mkv
+4,604,013,303 bytes
+00f841536b36fc1fb12922c6fe498679 (MD5)
+Duration: 01:23:39.84, start: 0.000000, bitrate: 7337 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
+
+
 $ ./Curious\ George\ -\ A\ Halloween\ Boo\ Fest.sh 
 Curious George - A Halloween Boo Fest.image
 4,231,528,448 bytes
