@@ -213,6 +213,19 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 448 kb/s
 
 
+$ ./Shrek.sh 
+Shrek.image
+7,924,985,856 bytes
+ecdcb78d136c35076cfd84e7a8670212 (MD5)
+
+Shrek.mkv
+4,017,105,098 bytes
+a52093c26e0c5406e22c7e1ce36d4ccc (MD5)
+Duration: 01:26:22.84, start: 0.000000, bitrate: 6200 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, 5.1, fltp, 448 kb/s
+
+
 $ ./The\ Gruffalo.sh 
 The Gruffalo.image
 2,573,234,176 bytes
