@@ -525,6 +525,20 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fp
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
 
 
+$ ./Tinker\ Bell.sh 
+clone_dvd: DVD appears to have structure protection (ARccOS or similar)
+Tinker Bell.image
+6,813,057,024 bytes
+0d368cd2f812933c7e5e4e64297ed788 (MD5)
+
+Tinker Bell.mkv
+3,147,666,708 bytes
+c814fa577369bb26826c5ee344101ddd (MD5)
+Duration: 01:14:46.92, start: 0.000000, bitrate: 5612 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
+
+
 $ ./Towser\ -\ The\ Complete\ Series.sh 
 Towser - The Complete Series.image
 7,419,789,312 bytes
