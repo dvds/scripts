@@ -83,6 +83,75 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7200 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
 
+$ ./Funtastic\ Children\'s\ Favourites.sh
+Funtastic Children's Favourites.image
+7,628,756,992 bytes
+2b5c4a528a3886cea36faf9e88d70a91 (MD5)
+
+1. Fireman Sam - Mummy's Little Helper.mkv
+563,357,181 bytes
+08832ee15ed01ea9dc3648dda4367bb5 (MD5)
+Duration: 00:10:12.20, start: 0.000000, bitrate: 7361 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+2. Thomas & Friends - Thomas and the Tuba.mkv
+470,398,423 bytes
+99a65271ebe87521aeb329706397e9d4 (MD5)
+Duration: 00:10:12.06, start: 0.000000, bitrate: 6148 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+3. Angelina Ballerina - Angelina in the Wings.mkv
+717,577,392 bytes
+868cb26fde693adb2694e992dd948667 (MD5)
+Duration: 00:12:17.12, start: 0.000000, bitrate: 7787 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+4. Pingu - Pingu Finishes the Job.mkv
+303,705,906 bytes
+9e1339dca2de8db5eb63b5c3a2e6867a (MD5)
+Duration: 00:05:12.12, start: 0.000000, bitrate: 7784 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+5. Barney & Friends - Up, Down and Around!.mkv
+1,604,798,852 bytes
+b472eab90ca547c02260446602d5fa26 (MD5)
+Duration: 00:25:13.80, start: 0.000000, bitrate: 8480 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+6. Kipper - The River Trip.mkv
+332,336,928 bytes
+b44f34cbdc5097da55ccec56caf124d2 (MD5)
+Duration: 00:08:47.09, start: 0.000000, bitrate: 5044 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+7. Rubbadubbers - Terence the Spy.mkv
+567,587,018 bytes
+1735ff34bb3b049c1f497361ad1d45fa (MD5)
+Duration: 00:10:12.18, start: 0.000000, bitrate: 7417 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+8. The Wiggles - Dressing Up.mkv
+1,389,258,134 bytes
+caa90b658621cf034bf3ce929914e751 (MD5)
+Duration: 00:21:32.22, start: 0.000000, bitrate: 8600 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+9. Bob the Builder - Mr Beasley's Noisy Pipes.mkv
+645,828,329 bytes
+3bde6dabe7afaba5301fab830158bcfa (MD5)
+Duration: 00:10:12.12, start: 0.000000, bitrate: 8440 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
+
+
 $ ./Help\!\ I\'m\ a\ Fish.sh
 Help! I'm a Fish.image
 4,643,471,360 bytes
