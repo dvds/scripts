@@ -627,6 +627,30 @@ function rip_dvd_title() {
     fi
 
     # Note:
+    # Some DVDs (e.g. Stuart Little) have odd video streams side-by-side with the MPEG2 stream which break the remuxing process
+    # So, we have to find the exact video stream identity and just use that instead
+    local dvd_video_stream_id
+    dvd_video_stream_id=$(avconv -i "$dvd_title_stream" 2>&1 | grep "mpeg2video (Main)" | tr --delete ' ' | sed 's/Stream#0.//' | sed 's/\[0x/ /' | awk '{ print $1; }')
+
+    if [ $? -ne 0 ]
+    then
+        __echo_to_stderr "rip_dvd_title: Cannot get main MPEG2 video substream id from $dvd_title_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    if [ -z $dvd_video_stream_id ]
+    then
+        __echo_to_stderr "rip_dvd_title: DVD does not contain an MPEG2 video substream in $dvd_title_stream"
+
+        __delete_directory "$tmp_directory"
+
+        return 1
+    fi
+
+    # Note:
     # None of the tooling seems capable of selecting streams in an MPEG2-PS container (i.e. vob) by substream id
     # So, we have to convert the substream id to the stream id of the audio track to use
     local dvd_audio_stream_id
@@ -664,7 +688,7 @@ function rip_dvd_title() {
     fi
 
     # remux to a new vob with the video and only the specified audio language (and only the specified timing snippet)
-    avconv -loglevel quiet -i "$dvd_title_stream" $dvd_title_position_seek $dvd_title_duration -map 0:v -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream"
+    avconv -loglevel quiet -i "$dvd_title_stream" $dvd_title_position_seek $dvd_title_duration -map 0:$dvd_video_stream_id -c:v copy -map 0:$dvd_audio_stream_id -c:a copy "$dvd_remuxed_stream"
 
     if [ $? -ne 0 ]
     then
