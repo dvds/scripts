@@ -295,6 +295,19 @@ Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 f
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 448 kb/s
 
 
+$ ./Stuart\ Little.sh 
+Stuart Little.image
+7,011,893,248 bytes
+1d0b423338ba9b55cb66d34efb4066bf (MD5)
+
+Stuart Little.mkv
+2,365,203,141 bytes
+aed81b4ed4bf4f34862a94e574d8ca0d (MD5)
+Duration: 01:21:10.00, start: 0.000000, bitrate: 3885 kb/s
+Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
+(eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
+
+
 $ ./The\ Gruffalo.sh 
 The Gruffalo.image
 2,573,234,176 bytes
