@@ -45,6 +45,7 @@ Duration: 00:51:55.84, start: 0.000000, bitrate: 6188 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s
 
+--------------------------------------------------------------------------------
 
 $ ./Barney\ -\ Riff\'s\ Clubhouse.sh
 Barney - Riff's Clubhouse.image
