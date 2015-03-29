@@ -59,6 +59,7 @@ Duration: 00:57:06.28, start: 0.000000, bitrate: 6259 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
 
+--------------------------------------------------------------------------------
 
 $ ./Curious\ George.sh
 Curious George.image
