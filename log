@@ -73,6 +73,7 @@ Duration: 01:23:39.84, start: 0.000000, bitrate: 7337 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
+--------------------------------------------------------------------------------
 
 $ ./Curious\ George\ -\ A\ Halloween\ Boo\ Fest.sh 
 Curious George - A Halloween Boo Fest.image
@@ -86,6 +87,7 @@ Duration: 00:54:33.28, start: 0.000000, bitrate: 7347 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 7200 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
+--------------------------------------------------------------------------------
 
 $ ./Funtastic\ Children\'s\ Favourites.sh
 Funtastic Children's Favourites.image
