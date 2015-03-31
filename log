@@ -157,6 +157,7 @@ Duration: 00:10:12.12, start: 0.000000, bitrate: 8440 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 16:15 DAR 4:3], 9800 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, stereo, fltp, 224 kb/s
 
+--------------------------------------------------------------------------------
 
 $ ./Help\!\ I\'m\ a\ Fish.sh
 Help! I'm a Fish.image
