@@ -171,6 +171,7 @@ Duration: 01:16:57.56, start: 0.000000, bitrate: 4758 kb/s
 Video: mpeg2video (Main), yuv420p, 720x576 [PAR 64:45 DAR 16:9], 9000 kb/s, 50 fps, 50 tbr, 1k tbn, 50 tbc
 (eng) Audio: ac3, 48000 Hz, 5.1, fltp, 384 kb/s
 
+--------------------------------------------------------------------------------
 
 $ ./Mr\ Benn\ -\ The\ Complete\ Series.sh 
 Mr Benn - The Complete Series.image
