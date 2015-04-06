@@ -736,7 +736,7 @@ function rip_dvd_title() {
     dvd_title_mkv_unedited="$tmp_directory/$output_file_name.mkv.unedited"
 
     # create the matroska container
-    mkvmerge --quiet --segment-uid 0x00000000000000000000000000000000 --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$cover_art_jpg" --output "$dvd_title_mkv_unedited" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_stream_language" --default-track 1:1 "$dvd_remuxed_stream"
+    mkvmerge --quiet --engage no_variable_data --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$cover_art_jpg" --output "$dvd_title_mkv_unedited" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_stream_language" --default-track 1:1 "$dvd_remuxed_stream"
 
     if [ $? -ne 0 ]
     then
@@ -903,16 +903,16 @@ function rip_dvd_title() {
         return 1
     fi
 
-    # create a variable to hold the 1st trackuid changed file path
-    local dvd_title_mkv_1_trackuid_changed
-    dvd_title_mkv_1_trackuid_changed="$tmp_directory/$output_file_name.mkv.1.trackuid.changed"
+    # create a variable to hold the mkv file path
+    local dvd_title_mkv
+    dvd_title_mkv="$target_directory/$output_file_name.mkv"
 
-    # change 1st TrackUID metadata
-    "$mkvedit_directory/change_trackuid.sh" "$dvd_title_mkv_writingapp_changed" "$dvd_title_mkv_1_trackuid_changed" 1 1 > /dev/null
+    # copy the WritingApp changed matroska file
+    cp --force "$dvd_title_mkv_writingapp_changed" "$dvd_title_mkv"
 
     if [ $? -ne 0 ]
     then
-        __echo_to_stderr "rip_dvd_title: Cannot change 1st TrackUID metadata from $dvd_title_mkv_writingapp_changed"
+        __echo_to_stderr "rip_dvd_title: Cannot copy file $dvd_title_mkv_writingapp_changed"
 
         __delete_directory "$tmp_directory"
 
@@ -925,90 +925,6 @@ function rip_dvd_title() {
     if [ $? -ne 0 ]
     then
         __echo_to_stderr "rip_dvd_title: Cannot delete file $dvd_title_mkv_writingapp_changed"
-
-        __delete_directory "$tmp_directory"
-
-        return 1
-    fi
-
-    # create a variable to hold the 2nd trackuid changed file path
-    local dvd_title_mkv_2_trackuid_changed
-    dvd_title_mkv_2_trackuid_changed="$tmp_directory/$output_file_name.mkv.2.trackuid.changed"
-
-    # change 2st TrackUID metadata
-    "$mkvedit_directory/change_trackuid.sh" "$dvd_title_mkv_1_trackuid_changed" "$dvd_title_mkv_2_trackuid_changed" 2 2 > /dev/null
-
-    if [ $? -ne 0 ]
-    then
-        __echo_to_stderr "rip_dvd_title: Cannot change 2nd TrackUID metadata from $dvd_title_mkv_1_trackuid_changed"
-
-        __delete_directory "$tmp_directory"
-
-        return 1
-    fi
-
-    # delete the 1st TrackUID changed matroska file
-    rm --force "$dvd_title_mkv_1_trackuid_changed"
-
-    if [ $? -ne 0 ]
-    then
-        __echo_to_stderr "rip_dvd_title: Cannot delete file $dvd_title_mkv_1_trackuid_changed"
-
-        __delete_directory "$tmp_directory"
-
-        return 1
-    fi
-
-    # create a variable to hold the attachment fileuid changed file path
-    local dvd_title_mkv_attachment_fileuid_changed
-    dvd_title_mkv_attachment_fileuid_changed="$tmp_directory/$output_file_name.mkv.attachment.fileuid.changed"
-
-    # change attachment FileUID metadata
-    "$mkvedit_directory/change_attachment_fileuid.sh" "$dvd_title_mkv_2_trackuid_changed" "$dvd_title_mkv_attachment_fileuid_changed" "$cover_art_name.jpg" 1 > /dev/null
-
-    if [ $? -ne 0 ]
-    then
-        __echo_to_stderr "rip_dvd_title: Cannot change attachment FileUID metadata from $dvd_title_mkv_2_trackuid_changed"
-
-        __delete_directory "$tmp_directory"
-
-        return 1
-    fi
-
-    # delete the 2st TrackUID changed matroska file
-    rm --force "$dvd_title_mkv_2_trackuid_changed"
-
-    if [ $? -ne 0 ]
-    then
-        __echo_to_stderr "rip_dvd_title: Cannot delete file $dvd_title_mkv_2_trackuid_changed"
-
-        __delete_directory "$tmp_directory"
-
-        return 1
-    fi
-
-    # create a variable to hold the mkv file path
-    local dvd_title_mkv
-    dvd_title_mkv="$target_directory/$output_file_name.mkv"
-
-    # copy the FileUID changed matroska file
-    cp --force "$dvd_title_mkv_attachment_fileuid_changed" "$dvd_title_mkv"
-
-    if [ $? -ne 0 ]
-    then
-        __echo_to_stderr "rip_dvd_title: Cannot copy file $dvd_title_mkv_attachment_fileuid_changed"
-
-        __delete_directory "$tmp_directory"
-
-        return 1
-    fi
-
-    # delete the attachment FileUID changed matroska file
-    rm --force "$dvd_title_mkv_attachment_fileuid_changed"
-
-    if [ $? -ne 0 ]
-    then
-        __echo_to_stderr "rip_dvd_title: Cannot delete file $dvd_title_mkv_attachment_fileuid_changed"
 
         __delete_directory "$tmp_directory"
 
