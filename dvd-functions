@@ -736,7 +736,7 @@ function rip_dvd_title() {
     dvd_title_mkv_unedited="$tmp_directory/$output_file_name.mkv.unedited"
 
     # create the matroska container
-    mkvmerge --quiet --segment-uid 0x00000000000000000000000000000000 --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$cover_art_jpg" --output "$dvd_title_mkv_unedited" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_stream_language" --default-track 1:1 "$dvd_remuxed_stream"
+    mkvmerge --quiet --engage no_variable_data --title "$dvd_title_name" --attachment-description "Cover art" --attachment-mime-type "image/jpeg" --attach-file "$cover_art_jpg" --output "$dvd_title_mkv_unedited" --no-audio --default-track 0:1 "$dvd_remuxed_stream" --no-video --language 1:"$dvd_audio_stream_language" --default-track 1:1 "$dvd_remuxed_stream"
 
     if [ $? -ne 0 ]
     then
